@@ -1,4 +1,3 @@
-import { log } from 'fxjs/Strict';
 import { POOL } from '../db.js';
 import { catchDBError } from '../lib.js';
 const { QUERY } = POOL;
@@ -8,9 +7,9 @@ function findByUserId(user_id) {
 }
 
 export const register = async (req, res) => {
-  const { id, password, name } = req.body;
+  const { id, password, name, age, gender } = req.body;
 
-  if (!(id && password && name)) {
+  if (!(id && password && name && age && gender)) {
     return res.status(412).json({
       success: false,
       message: 'wrong data',
@@ -29,11 +28,15 @@ export const register = async (req, res) => {
   await QUERY`INSERT INTO user (
     id,
     password,
-    name
+    name,
+    age,
+    gender
   ) VALUES (
     ${id},
     ${password},
-    ${name}
+    ${name},
+    ${age},
+    ${gender}
   )`.catch(catchDBError(res));
 
   return res.json({
