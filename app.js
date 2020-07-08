@@ -8,7 +8,7 @@ import L from 'fxjs/Lazy';
 
 const { QUERY } = POOL;
 
-import { register, login } from './routes/user';
+import { register, login, patch_user, delete_user } from './routes/user';
 
 const app = express();
 
@@ -21,13 +21,15 @@ app.listen(3000, () => {
 });
 
 app.get('/status', (req, res) => {
-  res.json({
+  return res.json({
     success: true,
   });
 });
 
 app.post('/register', register);
 app.post('/login', login);
+app.patch('/patch', patch_user);
+app.delete('/delete', delete_user);
 
 app.get('/user', async (req, res) => {
   // 만약 age의 값이 10이면 10살 이상의 유저를 찾는다.(if value of age is 10, then find user over 10 years old.)
